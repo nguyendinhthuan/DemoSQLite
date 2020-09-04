@@ -105,21 +105,21 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Tim kiem Author theo id
-    public ArrayList<Author> getIdAuthor(int id) {
-        ArrayList<Author> list = new ArrayList<>();
+    public Author getIdAuthor(int id) {
+//        ArrayList<Author> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from Authors where id_author =" + id, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        while (cursor.isAfterLast() == false) {
-            list.add(new Author(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-            cursor.moveToNext();
-        }
+        Author author = new Author(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+//            list.add(new Author(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+        cursor.moveToNext();
+
         cursor.close();
 
         db.close();
-        return list;
+        return author;
     }
 
     //Tim kiem Book theo id

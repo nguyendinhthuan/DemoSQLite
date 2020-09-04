@@ -1,21 +1,26 @@
 package com.example.demosqlite;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuthorActivity extends AppCompatActivity {
     private EditText edt_ID, edt_Name, edt_Address, edt_Email;
     private Button btn_Exit, btn_Save, btn_Select, btn_Delete, btn_Update;
-    private GridView gridView;
+    private ListView gridView;
     DBHelper dbHelper;
 
     @Override
@@ -45,7 +50,33 @@ public class AuthorActivity extends AppCompatActivity {
         btn_Delete = (Button) findViewById(R.id.btn_Delete);
         btn_Update = (Button) findViewById(R.id.bt_Update);
 
-        gridView = (GridView) findViewById(R.id.gridView);
+        gridView = (ListView) findViewById(R.id.gridView);
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
+//                builder.setMessage("Ban co muon xoa");
+//                builder.setTitle("Thong bao !");
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (dbHelper.deleteAuthor(position)) {
+//                            Toast.makeText(AuthorActivity.this, "Xoa thanh cong", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(AuthorActivity.this, "Xoa khong thanh cong", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
+//        });
     }
 
     public void Thoat() {
@@ -90,15 +121,15 @@ public class AuthorActivity extends AppCompatActivity {
                 if (edt_ID.getText().toString().equals("")) {
                     list_Author = dbHelper.getAllAuthor();
                 } else {
-                    list_Author = dbHelper.getIdAuthor(Integer.parseInt(edt_ID.getText().toString()));
+                    list_Author.add(dbHelper.getIdAuthor(Integer.parseInt(edt_ID.getText().toString())));
                 }
 
                 if (list_Author.size() > 0 ) {
                     for (Author author : list_Author) {
-                        list_String.add(author.getId_author() + "");
-                        list_String.add(author.getName_author());
-                        list_String.add(author.getAddress_author());
-                        list_String.add(author.getEmail_author());
+                        list_String.add(author.getId_author() + "   " + author.getName_author() + "   " + author.getAddress_author() + "   " + author.getEmail_author());
+//                        list_String.add(author.getName_author());
+//                        list_String.add(author.getAddress_author());
+//                        list_String.add(author.getEmail_author());
                     }
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AuthorActivity.this, android.R.layout.simple_list_item_1, list_String);
                     gridView.setAdapter(arrayAdapter);
@@ -121,6 +152,7 @@ public class AuthorActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     public void Sua() {

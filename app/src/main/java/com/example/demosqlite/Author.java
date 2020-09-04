@@ -1,8 +1,8 @@
 package com.example.demosqlite;
 
 public class Author {
-    private int id_author;
-    private String name_author, address_author, email_author;
+    public int id_author;
+    public String name_author, address_author, email_author;
 
 
     public Author(int id_author, String name_author, String address_author, String email_author) {
