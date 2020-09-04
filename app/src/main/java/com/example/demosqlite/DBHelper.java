@@ -15,7 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table Authors(id_author integer primary key, name_author text, address_author text, email_author text)");
-        db.execSQL("create table Books(id_book integer primary key, title text, id_author integer constraint id_author references Authors(id_author) on delete cascade on update cascade)");
+        db.execSQL("create table Books(id_book integer primary key, title text, id_author integer, foreign key (id_author) references Authors(id_author) on update cascade on delete cascade)");
     }
 
     //Kiem tra trung bang
@@ -24,6 +24,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists Authors");
         db.execSQL("drop table if exists Books");
         onCreate(db);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
+        super.onOpen(db);
     }
 
     //Contructer
